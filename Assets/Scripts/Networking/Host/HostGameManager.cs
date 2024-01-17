@@ -22,7 +22,7 @@ public class HostGameManager
     private Allocation allocation;
     private string joinCode;
     private string lobbyId;
-    private NetworkServer networkServer;
+    public NetworkServer networkServer;
     private const int MaxConnections = 20;
     private const string GameSceneName = "Game";
     public async Task StartHostAsync(){
@@ -35,7 +35,7 @@ public class HostGameManager
         }
         try{
             joinCode = await Relay.Instance.GetJoinCodeAsync(allocation.AllocationId);
-            Debug.Log(joinCode);
+            Debug.Log("joinCode:" + joinCode);
         }
         catch(Exception e){
             Debug.Log(e);
@@ -63,7 +63,7 @@ public class HostGameManager
                 $"{playerName}'s Lobby", MaxConnections, lobbyOptions);
             lobbyId = lobby.Id;
 
-            HostSingleton.Instance.StartCoroutine(HeartbeatLobby(15f));
+            HostSingleton.Instance.StartCoroutine(HeartbeatLobby(15));
         }
         catch(LobbyServiceException e){
             Debug.Log(e);
@@ -77,6 +77,7 @@ public class HostGameManager
         };
         string payload = JsonUtility.ToJson(userData);
         byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 
         NetworkManager.Singleton.StartHost();
 

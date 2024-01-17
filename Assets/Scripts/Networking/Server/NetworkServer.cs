@@ -25,7 +25,9 @@ public class NetworkServer
         NetworkManager.ConnectionApprovalResponse response)
     {
         string payload = System.Text.Encoding.UTF8.GetString(request.Payload);
-        UnityEngine.Debug.Log(request.Payload.Length);
+
+        var debugOutput = JsonUtility.ToJson(request, true);
+        UnityEngine.Debug.Log(debugOutput);
         UserData userData = JsonUtility.FromJson<UserData>(payload);
 
         UnityEngine.Debug.Log("userData.userName="+request.ClientNetworkId);

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
 
 public class HostSingleton : MonoBehaviour
 {
@@ -12,7 +9,7 @@ public class HostSingleton : MonoBehaviour
             if(instance != null){return instance;}
             instance = FindObjectOfType<HostSingleton>();
             if(instance == null){
-                UnityEngine.Debug.LogError("No HostSingleton found in scene!"); 
+                UnityEngine.Debug.LogError("LogError: No HostSingleton found in scene!"); 
                 return null;
             }
             return instance;
