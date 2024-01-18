@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class NetworkServer
+public class NetworkServer : IDisposable
 {
     private NetworkManager networkManager;
 
@@ -53,6 +53,17 @@ public class NetworkServer
         }
     }
 
+    public void Dispose(){
+        if(networkManager == null){return;}
+
+        networkManager.ConnectionApprovalCallback -= ApprovalCheck;
+        networkManager.OnServerStarted -= OnNetworkReady;
+        networkManager.OnClientDisconnectCallback -= OnClientDisconnect;
+
+        if(networkManager.IsListening){
+            networkManager.Shutdown();
+        }
+    }
 }
 
 
