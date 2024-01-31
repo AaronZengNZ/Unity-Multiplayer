@@ -22,7 +22,7 @@ public class HostGameManager : IDisposable
     private Allocation allocation;
     private string joinCode;
     private string lobbyId;
-    public NetworkServer networkServer;
+    public NetworkServer NetworkServer {get; private set;}
     private const int MaxConnections = 20;
     private const string GameSceneName = "Game";
     public async Task StartHostAsync(){
@@ -69,7 +69,7 @@ public class HostGameManager : IDisposable
             Debug.Log(e);
             return;
         }
-        networkServer = new NetworkServer(NetworkManager.Singleton);
+        NetworkServer = new NetworkServer(NetworkManager.Singleton);
        
         UserData userData = new UserData{
             userName = PlayerPrefs.GetString(NameSelector.PlayerNameKey, "MissingNo"),
@@ -106,6 +106,6 @@ public class HostGameManager : IDisposable
             lobbyId = string.Empty;
         }
 
-        networkServer?.Dispose();
+        NetworkServer?.Dispose();
     }
 }
